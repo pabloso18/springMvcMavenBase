@@ -5,17 +5,182 @@
   <artifactId>springMvcMavenBase</artifactId>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
-  <name>springMvcMavenBase Maven Webapp</name>
-  <url>http://maven.apache.org</url>
+  <name>springMvcMavenBase-Maven-Webapp</name>
+  
+  <!-- Properties -->
+  <properties>
+	  <jdk.version>1.8</jdk.version>
+	  <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
+	  <apache.maven.plugins.version>3.2.0</apache.maven.plugins.version>
+	  <springframework.version>5.0.3.RELEASE</springframework.version>
+	  <slf4j.version>1.7.25</slf4j.version>
+	  <log4j.version>1.2.17</log4j.version>
+	  <aspectj-version>1.8.13</aspectj-version>
+	  <servlet.api.version>2.5</servlet.api.version>
+	  <jsp.api.version>2.2</jsp.api.version>
+	  <jstl.version>1.2</jstl.version>
+	  <junit.version>4.12</junit.version>
+  </properties>
+  
+  <!-- Dependencies in Child -->
   <dependencies>
+  	<!-- Spring Framework -->
+  	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context</artifactId>
+	</dependency>
+	<dependency>
+       <groupId>org.springframework</groupId>
+       <artifactId>spring-webmvc</artifactId>
+  	</dependency>
+	<!-- AspectJ -->
+	<dependency>
+		<groupId>org.aspectj</groupId>
+		<artifactId>aspectjrt</artifactId>
+	</dependency>
+	<!-- Logging -->
+    <!-- Slf4j -->
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-api</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>jcl-over-slf4j</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-log4j12</artifactId>
+	</dependency>
+    <!-- Servelt -->
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
+	    <groupId>javax.servlet</groupId>
+	    <artifactId>servlet-api</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>javax.servlet.jsp</groupId>
+	    <artifactId>jsp-api</artifactId>
+	</dependency>
+	<!-- JSTL -->
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>jstl</artifactId>
+	</dependency>
+	<!-- Test -->
+	<!-- JUnit -->
+	<dependency>
+    		<groupId>junit</groupId>
+      	<artifactId>junit</artifactId>
     </dependency>
+    
   </dependencies>
+  
+  <!-- Dependencies in Parent -->
+  <dependencyManagement>
+  <dependencies>
+  
+  <!-- Spring Framework -->
+  	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context</artifactId>
+		<version>${springframework.version}</version>
+		<exclusions>
+			<!-- Exclude Commons Logging in favor of SLF4j -->
+			<exclusion>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+			 </exclusion>
+		</exclusions>
+	</dependency>
+	
+  	<dependency>
+       <groupId>org.springframework</groupId>
+       <artifactId>spring-webmvc</artifactId>
+       <version>${springframework.version}</version>
+  	</dependency>
+    
+	 <!-- AspectJ -->
+	<dependency>
+		<groupId>org.aspectj</groupId>
+		<artifactId>aspectjrt</artifactId>
+		<version>${aspectj-version}</version>
+	</dependency>
+    
+    <!-- Logging -->
+    <!-- Slf4j -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${slf4j.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+    
+    <!-- Servlet -->
+    <dependency>
+	    <groupId>javax.servlet</groupId>
+	    <artifactId>servlet-api</artifactId>
+	    <version>${servlet.api.version}</version>
+	    <scope>provided</scope>
+	</dependency>
+	<dependency>
+	    <groupId>javax.servlet.jsp</groupId>
+	    <artifactId>jsp-api</artifactId>
+	    <version>${jsp.api.version}</version>
+	    <scope>provided</scope>
+	</dependency>
+	
+	<!-- JSTL -->
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>jstl</artifactId>
+		<version>${jstl.version}</version>
+	</dependency>
+	
+	<!-- Test -->
+	<!-- JUnit -->
+	<dependency>
+    		<groupId>junit</groupId>
+      	<artifactId>junit</artifactId>
+      	<version>${junit.version}</version>
+      	<scope>test</scope>
+    </dependency>
+    
+  </dependencies>
+</dependencyManagement>
+  
+  <!-- Build -->
   <build>
-    <finalName>springMvcMavenBase</finalName>
-  </build>
+		<sourceDirectory>src</sourceDirectory>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
+				</configuration>
+			</plugin>
+ 			 <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${apache.maven.plugins.version}</version>
+                <configuration>
+                    <warSourceDirectory>src/main/webapp</warSourceDirectory>
+                    <warName>SpringMvcMavenBase</warName>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+                </plugin>
+		</plugins>
+	</build>
 </project>
